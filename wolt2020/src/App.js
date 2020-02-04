@@ -27,8 +27,8 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'center'
   },
   paper: {
-    width: 235,
-    height: 235,
+    width: 265,
+    height: 215,
     [theme.breakpoints.down(415)]: {
       width: window.innerWidth - 20,
       height: 95
