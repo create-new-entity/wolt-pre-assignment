@@ -1,10 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Blurhash } from 'react-blurhash';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
-import uuid from 'uuid';
 import { makeStyles } from '@material-ui/core/styles';
 import './App.css';
 
