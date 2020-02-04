@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Blurhash } from 'react-blurhash';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import './App.css';
 
@@ -10,22 +11,27 @@ import restaurantData from './restaurants.json';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    flexGrow: 1,
-    padding: 25,
     justifyContent: 'center',
+    marginTop: 100
+  },
+  navBar: {
+    width: window.innerWidth + 16,
+    height: 100,
     margin: 0,
-    [theme.breakpoints.down(415)]: {
-      padding: 0
-    }
+    padding: 0,
+    top: 0,
+    left: 0,
+    right: 0,
+    position: 'fixed',
+    background: 'rgba(229, 231, 233, 0.6)',
+    textAlign: 'center'
   },
   paper: {
     width: 235,
     height: 235,
-    paddingTop: 15,
     [theme.breakpoints.down(415)]: {
-      width: window.innerWidth,
-      height: 95,
-      paddingTop: 0
+      width: window.innerWidth - 20,
+      height: 95
     }
   },
   paperContentsContainer: {
@@ -74,8 +80,11 @@ const useStyles = makeStyles(theme => ({
 
 
 const App = (props) => {
+const [restaurants, setRestaurants] = useState(restaurantData.restaurants.sort((a, b) => a.name.localeCompare(b.name)));
+const [buttonText, setButtonText] = useState('Sort Descending');
+
   const classes = useStyles();
-  let restaurants = restaurantData.restaurants.map((data, index) => {
+  let restaurantsComponent = restaurants.map((data, index) => {
     return (
       <Grid item key={index}>
         <Paper elevation={3} className={classes.paper}>
@@ -100,15 +109,21 @@ const App = (props) => {
     );
   });
   return (
-    <div className="App">
-      <hr></hr>
+    <div>
+      <div className={classes.navBar}>
+        <Button variant="contained" color="primary" style={{ marginTop: 50 }}>
+          {
+            buttonText
+          }
+        </Button>
+      </div>
       <Grid
         className={classes.root}
         container
         spacing={2}
       >
         {
-          restaurants
+          restaurantsComponent
         }
       </Grid>
     </div>
