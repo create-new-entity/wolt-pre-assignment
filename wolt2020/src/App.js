@@ -83,6 +83,12 @@ const App = (props) => {
 const [restaurants, setRestaurants] = useState(restaurantData.restaurants.sort((a, b) => a.name.localeCompare(b.name)));
 const [buttonText, setButtonText] = useState('Sort Descending');
 
+const sortHandler = () => {
+  (buttonText === 'Sort Descending') ? setButtonText('Sort Ascending') : setButtonText('Sort Descending');
+  let newArr = [...restaurants];
+  setRestaurants(newArr.reverse());
+};
+
   const classes = useStyles();
   let restaurantsComponent = restaurants.map((data, index) => {
     return (
@@ -111,7 +117,12 @@ const [buttonText, setButtonText] = useState('Sort Descending');
   return (
     <div>
       <div className={classes.navBar}>
-        <Button variant="contained" color="primary" style={{ marginTop: 50 }}>
+        <Button
+          variant="contained"
+          color="primary"
+          style={{ marginTop: 50 }}
+          onClick={sortHandler}
+        >
           {
             buttonText
           }
