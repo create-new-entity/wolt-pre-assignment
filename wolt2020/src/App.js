@@ -12,36 +12,62 @@ const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
     padding: 25,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    margin: 0,
+    [theme.breakpoints.down(415)]: {
+      padding: 0
+    }
   },
   paper: {
     width: 235,
-    height: 210,
-    [theme.breakpoints.down(600)]:{
-      width: 500,
-      height: 250
+    height: 235,
+    paddingTop: 15,
+    [theme.breakpoints.down(415)]: {
+      width: window.innerWidth,
+      height: 95,
+      paddingTop: 0
     }
   },
   paperContentsContainer: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    [theme.breakpoints.down(415)]: {
+      flexDirection: 'row',
+      justifyContent: 'start',
+      alignItems: 'center'
+    }
   },
   imageContainer: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    padding: 10,
+    [theme.breakpoints.down(415)]: {
+      flexDirection: 'column',
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center'
+    }
+  },
+  textContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    [theme.breakpoints.down(415)]: {
+      flex: 3,
+      justifyContent: 'start',
+      alignItems: 'center'
+    }
   },
   thumbnail: {
     width: 100,
     height: 125,
-    paddingTop: 15,
-    objectFit: 'cover'
-  },
-  smallscreen: {
-    [theme.breakpoints.down('sm')]: {
-      display: 'inline-block'
+    objectFit: 'cover',
+    [theme.breakpoints.down(415)]: {
+      width: 92,
+      height: 69
     }
   }
 }));
@@ -61,11 +87,13 @@ const App = (props) => {
                 className={`${classes.thumbnail}`}
               />
             </Box>
-            <p>
-              {
-                data.name
-              }
-            </p>
+            <Box className={classes.textContainer}>
+              <p>
+                {
+                  data.name
+                }
+              </p>
+            </Box>
           </Box>
         </Paper>
       </Grid>
