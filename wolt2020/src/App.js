@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
+import Drawer from '@material-ui/core/Drawer';
 import { makeStyles } from '@material-ui/core/styles';
 import './App.css';
 
@@ -46,12 +47,21 @@ const useStyles = makeStyles(theme => ({
     position: 'fixed',
     background: 'rgba(229, 231, 233, 0.6)',
     textAlign: 'center'
+  },
+  drawer: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    width: 220
   }
 }));
 
 
 const App = (props) => {
   const [showTags, setShowTags] = useState(false);
+  const [showDrawer, setShowDrawer] = React.useState(false);
+  
 
   useEffect(() => {
     props.initializeRestaurantsAction();
@@ -67,23 +77,33 @@ const App = (props) => {
 
       <div className={classes.navBar}>
         <Button
-          variant="contained"
-          color="primary"
-          style={{ marginTop: 30 }}
-          onClick={() => {
-            props.changeSortOrderAction({
-              'currentOrder': props.sortOrder,
-              'restaurants': props.restaurants
-            })
-          }}
-        > { buttonText } </Button>
-        <Button
-          variant="contained"
-          color={showTags ? "secondary" : "primary"}
-          style={{ marginTop: 30, marginLeft: 10 }}
-          onClick={() => setShowTags(!showTags)}
-        > Tags </Button>
+            variant='contained'
+            color='primary'
+            style={{ marginTop: 30, marginLeft: 10 }}
+            onClick={() => setShowDrawer(!showDrawer)}
+          > Menu </Button>
       </div>
+      <Drawer open={showDrawer} onClose={() => setShowDrawer(!showDrawer)}>
+        <div className={classes.drawer}>
+          <Button
+                variant="contained"
+                color={showTags ? "secondary" : "primary"}
+                style={{margin: 20}}
+                onClick={() => setShowTags(!showTags)}
+              > Tags </Button>
+          <Button
+              variant="contained"
+              color="primary"
+              style={{margin: 20}}
+              onClick={() => {
+                props.changeSortOrderAction({
+                  'currentOrder': props.sortOrder,
+                  'restaurants': props.restaurants
+                })
+              }}
+            > { buttonText } </Button>
+        </div>
+      </Drawer>
       
       { tagChips }
       <Restaurants/>
