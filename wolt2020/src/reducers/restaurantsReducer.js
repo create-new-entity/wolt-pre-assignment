@@ -24,6 +24,7 @@ const restaurantsReducer = (state = [], action) => {
   switch(action.type) {
     case 'INITIALIZE':
     case 'SET_RESTAURANTS':
+    case 'CHANGE_ORDER':
       return action.data.restaurants;
     default:
       return state;

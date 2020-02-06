@@ -4,13 +4,20 @@ import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import './App.css';
 
+
+
 import restaurantData from './restaurants.json';
 import TagChips from './components/TagChips';
 import Restaurants from './components/Restaurants';
+
 import {
   initializeRestaurantsAction,
   setRestaurantsAction
 } from './reducers/restaurantsReducer';
+
+import {
+  changeSortOrderAction
+} from './reducers/sortOrderReducer';
 
 const mapStateToProps = (state) => {
   return {
@@ -22,7 +29,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   initializeRestaurantsAction,
-  setRestaurantsAction
+  setRestaurantsAction,
+  changeSortOrderAction
 };
 
 const useStyles = makeStyles(theme => ({
@@ -89,14 +97,6 @@ const App = (props) => {
     props.setRestaurantsAction(newRestaurants);
   };
 
-
-
-
-  const sortHandler = () => {
-    let newArr = [...props.restaurants];
-    props.setRestaurantsAction(newArr.reverse());
-  };
-
   const classes = useStyles();
   let buttonText = (props.sortOrder === 'ascending') ? 'Sort Descending' : 'Sort Ascending';
 
@@ -108,7 +108,12 @@ const App = (props) => {
           variant="contained"
           color="primary"
           style={{ marginTop: 30 }}
-          onClick={sortHandler}
+          onClick={() => {
+            props.changeSortOrderAction({
+            'currentOrder': props.sortOrder,
+            'restaurants': props.restaurants
+          })
+          }}
         > { buttonText } </Button>
 
       </div>

@@ -8,8 +8,8 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
   paper: {
-    width: 265,
-    height: 215,
+    width: 275,
+    height: 220,
     [theme.breakpoints.down(415)]: {
       width: window.innerWidth - 20,
       height: 95
@@ -49,8 +49,8 @@ const useStyles = makeStyles(theme => ({
     }
   },
   thumbnail: {
-    width: 100,
-    height: 125,
+    width: 200,
+    height: 150,
     objectFit: 'cover',
     [theme.breakpoints.down(415)]: {
       width: 92,
