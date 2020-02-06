@@ -26,7 +26,7 @@ const mapDispatchToProps = {
 };
 
 const TagChip = (props) => {
-  const [selected, setSelected] = useState(false);
+  const [selected, setSelected] = useState(props.selectedTags.indexOf(props.tag) !== -1);
 
   const onClickHandler = () => {
     if(!selected){
@@ -41,7 +41,7 @@ const TagChip = (props) => {
     }
   }
   return <Chip
-            color={ selected ? "secondary" : "primary" }
+            color={ selected ? 'secondary' : 'primary' }
             label={props.tag}
             style={{cursor: 'pointer'}}
             onClick={onClickHandler}

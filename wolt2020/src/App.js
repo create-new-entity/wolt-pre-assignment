@@ -1,12 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import './App.css';
 
-
-
-import restaurantData from './restaurants.json';
 import TagChips from './components/TagChips';
 import Restaurants from './components/Restaurants';
 
@@ -54,56 +51,21 @@ const useStyles = makeStyles(theme => ({
 
 
 const App = (props) => {
-  const [selectedTags, setSelectedTags] = useState([]);
-  
-  const tags = useRef(
-    restaurantData.restaurants
-      .sort((a, b) => a.name.localeCompare(b.name))
-      .reduce((accArr, currObj) => {
-        currObj.tags.forEach(tag => {
-          if(accArr.indexOf(tag) === -1) accArr.push(tag);
-        });
-        return accArr;
-      }, [])).current;
+  const [showTags, setShowTags] = useState(false);
 
   useEffect(() => {
     props.initializeRestaurantsAction();
   }, []);
 
-  const onTagSelect = (tag) => {
-    let newSelectedTags = selectedTags.concat(tag);
-    let newRestaurants = props.restaurants.filter((restaurant) => {
-      return restaurant.tags.some((tag) => newSelectedTags.indexOf(tag) !== -1);
-    });
-
-    setSelectedTags(newSelectedTags);
-    props.setRestaurantsAction(newRestaurants);
-  };
-
-  const onTagDeselect = (tag) => {
-    let newSelectedTags = selectedTags.filter((currTag) => currTag !== tag);
-    let newRestaurants;
-    if(newSelectedTags.length){
-      newRestaurants = props.restaurants.filter((restaurant) => {
-        return restaurant.tags.some((tag) => newSelectedTags.indexOf(tag) !== -1);
-      });
-    }
-    else {
-      newRestaurants = restaurantData.restaurants.sort((a, b) => a.name.localeCompare(b.name));
-      if(props.sortOrder === 'descending') newRestaurants = newRestaurants.reverse();
-    }
-
-    setSelectedTags(newSelectedTags);
-    props.setRestaurantsAction(newRestaurants);
-  };
 
   const classes = useStyles();
   let buttonText = (props.sortOrder === 'ascending') ? 'Sort Descending' : 'Sort Ascending';
+  let tagChips = (showTags ? (<TagChips/>) : null);
 
   return (
     <div>
-      <div className={classes.navBar}>
 
+      <div className={classes.navBar}>
         <Button
           variant="contained"
           color="primary"
@@ -115,12 +77,16 @@ const App = (props) => {
             })
           }}
         > { buttonText } </Button>
-
+        <Button
+          variant="contained"
+          color={showTags ? "secondary" : "primary"}
+          style={{ marginTop: 30, marginLeft: 10 }}
+          onClick={() => setShowTags(!showTags)}
+        > Tags </Button>
       </div>
-
+      
+      { tagChips }
       <Restaurants/>
-
-      <TagChips tags={tags}/>
       
     </div>
   );
