@@ -44,7 +44,6 @@ const useStyles = makeStyles(theme => ({
     top: 0,
     left: 0,
     right: 0,
-    position: 'fixed',
     background: 'rgba(229, 231, 233, 0.6)',
     textAlign: 'center'
   },
@@ -75,7 +74,7 @@ const App = (props) => {
 
   if(props.selectedTags.length){
     tagMessage = (
-      <div style={{marginTop: showTags ? 10 : 90, textAlign: 'center'}}>
+      <div style={{marginTop: 10, textAlign: 'center'}}>
         <p style={{margin: 0}}>
           {props.selectedTags.length} tag(s) selected 👍
         </p>

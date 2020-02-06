@@ -9,7 +9,7 @@ import Restaurant from './Restaurant';
 const useStyles = makeStyles(theme => ({
   root: {
     justifyContent: 'center',
-    marginTop: 110
+    marginTop: 10
   }
 }));
 
