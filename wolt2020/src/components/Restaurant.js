@@ -9,7 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles(theme => ({
   paper: {
     width: 275,
-    height: 220,
+    height: 230,
     [theme.breakpoints.down(415)]: {
       width: window.innerWidth - 20,
       height: 95
@@ -48,6 +48,14 @@ const useStyles = makeStyles(theme => ({
       alignItems: 'center'
     }
   },
+  statusContainer: {
+    color: 'white',
+    borderRadius: 5,
+    marginTop: 5,
+    [theme.breakpoints.down(415)]: {
+      marginRight: 5
+    }
+  },
   thumbnail: {
     width: 200,
     height: 150,
@@ -74,11 +82,14 @@ const Restaurant = ({ restaurant }) => {
             />
           </Box>
           <Box className={classes.textContainer}>
-            <p>
+            <p style={{margin: 0}}>
               {
                 restaurant.name
               }
             </p>
+          </Box>
+          <Box style={{backgroundColor: restaurant.online ? 'rgb(33, 95, 48, 0.8)' : 'rgb(114, 54, 37, 0.8)'}} className={classes.statusContainer}>
+            <p style={{margin: 0, padding: 2}}> {restaurant.online ? 'Online' : 'Offline'}</p>
           </Box>
         </Box>
       </Paper>

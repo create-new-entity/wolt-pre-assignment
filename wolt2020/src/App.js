@@ -71,10 +71,20 @@ const App = (props) => {
   const classes = useStyles();
   let buttonText = (props.sortOrder === 'ascending') ? 'Sort Descending' : 'Sort Ascending';
   let tagChips = (showTags ? (<TagChips/>) : null);
+  let tagMessage = null;
+
+  if(props.selectedTags.length){
+    tagMessage = (
+      <div style={{marginTop: showTags ? 10 : 90, textAlign: 'center'}}>
+        <p style={{margin: 0}}>
+          {props.selectedTags.length} tag(s) selected 👍
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div>
-
       <div className={classes.navBar}>
         <Button
             variant='contained'
@@ -106,6 +116,7 @@ const App = (props) => {
       </Drawer>
       
       { tagChips }
+      { tagMessage }
       <Restaurants/>
       
     </div>
