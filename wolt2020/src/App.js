@@ -16,7 +16,7 @@ const mapStateToProps = (state) => {
   return {
     restaurants: state.restaurants,
     selectedTags: state.selectedTags,
-    buttonText: state.buttonText
+    sortOrder: state.sortOrder
   };
 };
 
@@ -46,7 +46,6 @@ const useStyles = makeStyles(theme => ({
 
 
 const App = (props) => {
-  const [buttonText, setButtonText] = useState('Sort Descending');
   const [selectedTags, setSelectedTags] = useState([]);
   
   const tags = useRef(
@@ -83,7 +82,7 @@ const App = (props) => {
     }
     else {
       newRestaurants = restaurantData.restaurants.sort((a, b) => a.name.localeCompare(b.name));
-      if(buttonText === 'Sort Ascending') newRestaurants = newRestaurants.reverse();
+      if(props.sortOrder === 'descending') newRestaurants = newRestaurants.reverse();
     }
 
     setSelectedTags(newSelectedTags);
@@ -94,33 +93,33 @@ const App = (props) => {
 
 
   const sortHandler = () => {
-    (buttonText === 'Sort Descending') ? setButtonText('Sort Ascending') : setButtonText('Sort Descending');
     let newArr = [...props.restaurants];
     props.setRestaurantsAction(newArr.reverse());
   };
 
   const classes = useStyles();
+  let buttonText = (props.sortOrder === 'ascending') ? 'Sort Descending' : 'Sort Ascending';
 
   return (
     <div>
       <div className={classes.navBar}>
+
         <Button
           variant="contained"
           color="primary"
           style={{ marginTop: 30 }}
           onClick={sortHandler}
-        >
-          {
-            buttonText
-          }
-        </Button>
+        > { buttonText } </Button>
+
       </div>
+
       <Restaurants/>
+
       <TagChips
           tags={tags}
           onSelect={onTagSelect}
           onDeselect={onTagDeselect}
-        />
+      />
       
     </div>
   );

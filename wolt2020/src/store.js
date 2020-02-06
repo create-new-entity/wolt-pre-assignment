@@ -1,13 +1,13 @@
 import { createStore, combineReducers } from 'redux';
 
-import buttonTextReducer from './reducers/buttonTextReducer';
+import sortOrderReducer from './reducers/sortOrderReducer';
 import restaurantsReducer from './reducers/restaurantsReducer';
 import selectedTagsReducer from './reducers/selectedTagsReducer';
 
 const reducer = combineReducers({
   restaurants: restaurantsReducer,
   selectedTags: selectedTagsReducer,
-  buttonText: buttonTextReducer
+  sortOrder: sortOrderReducer
 });
 
 const store = createStore(reducer);
