@@ -1,4 +1,5 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import './App.css';
@@ -6,6 +7,23 @@ import './App.css';
 import restaurantData from './restaurants.json';
 import TagChips from './components/TagChips';
 import Restaurants from './components/Restaurants';
+import {
+  initializeRestaurantsAction,
+  setRestaurantsAction
+} from './reducers/restaurantsReducer';
+
+const mapStateToProps = (state) => {
+  return {
+    restaurants: state.restaurants,
+    selectedTags: state.selectedTags,
+    buttonText: state.buttonText
+  };
+};
+
+const mapDispatchToProps = {
+  initializeRestaurantsAction,
+  setRestaurantsAction
+};
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -14,7 +32,7 @@ const useStyles = makeStyles(theme => ({
   },
   navBar: {
     width: window.innerWidth + 16,
-    height: 100,
+    height: 80,
     margin: 0,
     padding: 0,
     top: 0,
@@ -28,53 +46,58 @@ const useStyles = makeStyles(theme => ({
 
 
 const App = (props) => {
-const [restaurants, setRestaurants] = useState(restaurantData.restaurants.sort((a, b) => a.name.localeCompare(b.name)));
-const [buttonText, setButtonText] = useState('Sort Descending');
-const [selectedTags, setSelectedTags] = useState([]);
+  const [buttonText, setButtonText] = useState('Sort Descending');
+  const [selectedTags, setSelectedTags] = useState([]);
+  
+  const tags = useRef(
+    restaurantData.restaurants
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .reduce((accArr, currObj) => {
+        currObj.tags.forEach(tag => {
+          if(accArr.indexOf(tag) === -1) accArr.push(tag);
+        });
+        return accArr;
+      }, [])).current;
 
-const tags = useRef(
-  restaurants.reduce((accArr, currObj) => {
-  currObj.tags.forEach(tag => {
-    if(accArr.indexOf(tag) === -1) accArr.push(tag);
-  });
-  return accArr;
-}, [])).current;
+  useEffect(() => {
+    props.initializeRestaurantsAction();
+  }, []);
 
-const onTagSelect = (tag) => {
-  let newSelectedTags = selectedTags.concat(tag);
-  let newRestaurants = restaurants.filter((restaurant) => {
-    return restaurant.tags.some((tag) => newSelectedTags.indexOf(tag) !== -1);
-  });
-
-  setSelectedTags(newSelectedTags);
-  setRestaurants(newRestaurants);
-};
-
-const onTagDeselect = (tag) => {
-  let newSelectedTags = selectedTags.filter((currTag) => currTag !== tag);
-  let newRestaurants;
-  if(newSelectedTags.length){
-    newRestaurants = restaurants.filter((restaurant) => {
+  const onTagSelect = (tag) => {
+    let newSelectedTags = selectedTags.concat(tag);
+    let newRestaurants = props.restaurants.filter((restaurant) => {
       return restaurant.tags.some((tag) => newSelectedTags.indexOf(tag) !== -1);
     });
-  }
-  else {
-    newRestaurants = restaurantData.restaurants.sort((a, b) => a.name.localeCompare(b.name));
-    if(buttonText === 'Sort Ascending') newRestaurants = newRestaurants.reverse();
-  }
 
-  setSelectedTags(newSelectedTags);
-  setRestaurants(newRestaurants);
-};
+    setSelectedTags(newSelectedTags);
+    props.setRestaurantsAction(newRestaurants);
+  };
+
+  const onTagDeselect = (tag) => {
+    let newSelectedTags = selectedTags.filter((currTag) => currTag !== tag);
+    let newRestaurants;
+    if(newSelectedTags.length){
+      newRestaurants = props.restaurants.filter((restaurant) => {
+        return restaurant.tags.some((tag) => newSelectedTags.indexOf(tag) !== -1);
+      });
+    }
+    else {
+      newRestaurants = restaurantData.restaurants.sort((a, b) => a.name.localeCompare(b.name));
+      if(buttonText === 'Sort Ascending') newRestaurants = newRestaurants.reverse();
+    }
+
+    setSelectedTags(newSelectedTags);
+    props.setRestaurantsAction(newRestaurants);
+  };
 
 
 
 
-const sortHandler = () => {
-  (buttonText === 'Sort Descending') ? setButtonText('Sort Ascending') : setButtonText('Sort Descending');
-  let newArr = [...restaurants];
-  setRestaurants(newArr.reverse());
-};
+  const sortHandler = () => {
+    (buttonText === 'Sort Descending') ? setButtonText('Sort Ascending') : setButtonText('Sort Descending');
+    let newArr = [...props.restaurants];
+    props.setRestaurantsAction(newArr.reverse());
+  };
 
   const classes = useStyles();
 
@@ -84,7 +107,7 @@ const sortHandler = () => {
         <Button
           variant="contained"
           color="primary"
-          style={{ marginTop: 50 }}
+          style={{ marginTop: 30 }}
           onClick={sortHandler}
         >
           {
@@ -92,17 +115,15 @@ const sortHandler = () => {
           }
         </Button>
       </div>
-
+      <Restaurants/>
       <TagChips
           tags={tags}
           onSelect={onTagSelect}
           onDeselect={onTagDeselect}
-      />
-
-      <Restaurants restaurants={restaurants} />
+        />
       
     </div>
   );
 }
 
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App);
