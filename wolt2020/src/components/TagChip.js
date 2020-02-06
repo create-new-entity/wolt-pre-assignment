@@ -1,25 +1,51 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import Chip from '@material-ui/core/Chip';
 
-const TagChip = ({ tag, onSelect, onDeselect }) => {
+import {
+  selectTagAction,
+  deselectTagAction
+} from './../reducers/selectedTagsReducer';
+
+import {
+  updateRestaurantsAfterTagInteraction
+} from './../reducers/restaurantsReducer';
+
+const mapStateToProps = (state) => {
+  return {
+    restaurants: state.restaurants,
+    selectedTags: state.selectedTags,
+    sortOrder: state.sortOrder
+  };
+};
+
+const mapDispatchToProps = {
+  selectTagAction,
+  deselectTagAction,
+  updateRestaurantsAfterTagInteraction
+};
+
+const TagChip = (props) => {
   const [selected, setSelected] = useState(false);
 
   const onClickHandler = () => {
     if(!selected){
       setSelected(true);
-      // onSelect(tag);
+      props.selectTagAction(props.tag);
+      props.updateRestaurantsAfterTagInteraction(props.selectedTags.concat(props.tag), props.sortOrder);
     }
     else {
       setSelected(false);
-      // onDeselect(tag);
+      props.deselectTagAction(props.tag);
+      props.updateRestaurantsAfterTagInteraction(props.selectedTags.filter((tag) => tag !== props.tag), props.sortOrder);
     }
   }
   return <Chip
             color={ selected ? "secondary" : "primary" }
-            label={tag}
+            label={props.tag}
             style={{cursor: 'pointer'}}
             onClick={onClickHandler}
           />;
 };
 
-export default TagChip;
+export default connect(mapStateToProps, mapDispatchToProps)(TagChip);

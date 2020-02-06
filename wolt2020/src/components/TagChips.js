@@ -15,23 +15,24 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const TagChips = ({ tags, onSelect, onDeselect }) => {
-  const classes = useStyles();
-
-  return (
-    <Box className={classes.tagsBox}>
-      {
-        tags.map((tag) => {
-          return <TagChip
-                  key={uuid.v4()}
-                  tag={tag}
-                  onSelect={onSelect}
-                  onDeselect={onDeselect}
-                />;
-        })
-      }
-    </Box>
-  );
-};
+const TagChips = React.memo(
+  ({ tags, onSelect, onDeselect }) => {
+    const classes = useStyles();
+    return (
+      <Box className={classes.tagsBox}>
+        {
+          tags.map((tag) => {
+            return <TagChip
+                    key={uuid.v4()}
+                    tag={tag}
+                    onSelect={onSelect}
+                    onDeselect={onDeselect}
+                  />;
+          })
+        }
+      </Box>
+    );
+  }
+);
 
 export default TagChips;

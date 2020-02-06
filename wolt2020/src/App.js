@@ -110,9 +110,9 @@ const App = (props) => {
           style={{ marginTop: 30 }}
           onClick={() => {
             props.changeSortOrderAction({
-            'currentOrder': props.sortOrder,
-            'restaurants': props.restaurants
-          })
+              'currentOrder': props.sortOrder,
+              'restaurants': props.restaurants
+            })
           }}
         > { buttonText } </Button>
 
@@ -120,11 +120,7 @@ const App = (props) => {
 
       <Restaurants/>
 
-      <TagChips
-          tags={tags}
-          onSelect={onTagSelect}
-          onDeselect={onTagDeselect}
-      />
+      <TagChips tags={tags}/>
       
     </div>
   );

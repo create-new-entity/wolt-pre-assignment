@@ -1,7 +1,7 @@
-import restaurantData from './../restaurants.json';
+import services from './../services/restaurants';
 
 export const initializeRestaurantsAction = () => {
-  let restaurants = restaurantData.restaurants.sort((a, b) => a.name.localeCompare(b.name));
+  let restaurants = services.getRestaurantsAscending();
   return {
     type: 'INITIALIZE',
     data: {
@@ -19,6 +19,26 @@ export const setRestaurantsAction = (restaurants) => {
   }
 };
 
+export const updateRestaurantsAfterTagInteraction = (selectedTags, sortOrder) => {
+  let restaurants = services.getRestaurantsAscending();
+  console.log(selectedTags);
+  if(selectedTags.length){
+    restaurants = restaurants.filter((restaurant) => {
+      return restaurant.tags.some((tag) => selectedTags.indexOf(tag) !== -1);;
+    });
+  }
+  else {
+    restaurants = services.getRestaurantsAscending();
+    if(sortOrder === 'descending') restaurants = restaurants.reverse();
+  }
+
+  return {
+    type: 'UPDATE_RESTAURANTS',
+    data: restaurants
+  };
+};
+
+
 
 const restaurantsReducer = (state = [], action) => {
   switch(action.type) {
@@ -26,6 +46,8 @@ const restaurantsReducer = (state = [], action) => {
     case 'SET_RESTAURANTS':
     case 'CHANGE_ORDER':
       return action.data.restaurants;
+    case 'UPDATE_RESTAURANTS':
+      return action.data;
     default:
       return state;
   }
