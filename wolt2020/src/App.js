@@ -89,23 +89,23 @@ const App = (props) => {
           return (
             <>
               <div className={classes.navBar}>
-              <Button
+                <Button
+                      variant="contained"
+                      color={showTags ? "secondary" : "primary"}
+                      style={{margin: 20}}
+                      onClick={() => setShowTags(!showTags)}
+                    > Tags </Button>
+                <Button
                     variant="contained"
-                    color={showTags ? "secondary" : "primary"}
+                    color="primary"
                     style={{margin: 20}}
-                    onClick={() => setShowTags(!showTags)}
-                  > Tags </Button>
-              <Button
-                  variant="contained"
-                  color="primary"
-                  style={{margin: 20}}
-                  onClick={() => {
-                    props.changeSortOrderAction({
-                      'currentOrder': props.sortOrder,
-                      'restaurants': props.restaurants
-                    })
-                  }}
-                > { buttonText } </Button>
+                    onClick={() => {
+                      props.changeSortOrderAction({
+                        'currentOrder': props.sortOrder,
+                        'restaurants': props.restaurants
+                      })
+                    }}
+                  > { buttonText } </Button>
               </div>
               { tagChips }
               { tagMessage }

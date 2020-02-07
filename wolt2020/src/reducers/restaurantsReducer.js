@@ -21,7 +21,6 @@ export const setRestaurantsAction = (restaurants) => {
 
 export const updateRestaurantsAfterTagInteraction = (selectedTags, sortOrder) => {
   let restaurants = services.getRestaurantsAscending();
-  console.log(selectedTags);
   if(selectedTags.length){
     restaurants = restaurants.filter((restaurant) => {
       return restaurant.tags.some((tag) => selectedTags.indexOf(tag) !== -1);;
