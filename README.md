@@ -1,4 +1,11 @@
 # wolt-pre-assignment
+## [Source](https://github.com/woltapp/summer2020)
+## Live Demo [Here](https://duniarbalchal.dev/wolt2020/)
+If you want to run locally:
+1. npm install
+2. npm run start
+3. **Go to `http://localhost:3000/wolt2020`** on the browser. **NOT TO** `http://localhost:3000/`.
+---
 
 # Summer 2020 Internships - Engineering Pre-assignment
 
