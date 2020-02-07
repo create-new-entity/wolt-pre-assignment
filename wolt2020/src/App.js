@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
-import Drawer from '@material-ui/core/Drawer';
 import { makeStyles } from '@material-ui/core/styles';
+import {
+  BrowserRouter as Router,
+  Route
+} from 'react-router-dom';
 import './App.css';
 
 import TagChips from './components/TagChips';
@@ -37,7 +40,6 @@ const useStyles = makeStyles(theme => ({
     marginTop: 50
   },
   navBar: {
-    width: window.innerWidth,
     height: 80,
     margin: 0,
     padding: 0,
@@ -59,9 +61,7 @@ const useStyles = makeStyles(theme => ({
 
 const App = (props) => {
   const [showTags, setShowTags] = useState(false);
-  const [showDrawer, setShowDrawer] = React.useState(false);
   
-
   useEffect(() => {
     props.initializeRestaurantsAction();
   }, []);
@@ -75,7 +75,7 @@ const App = (props) => {
   if(props.selectedTags.length){
     tagMessage = (
       <div style={{marginTop: 10, textAlign: 'center'}}>
-        <p style={{margin: 0}}>
+        <p style={{margin: 0, color: 'white'}}>
           {props.selectedTags.length} tag(s) selected 👍
         </p>
       </div>
@@ -84,40 +84,36 @@ const App = (props) => {
 
   return (
     <div>
-      <div className={classes.navBar}>
-        <Button
-            variant='contained'
-            color='primary'
-            style={{ marginTop: 30, marginLeft: 10 }}
-            onClick={() => setShowDrawer(!showDrawer)}
-          > Menu </Button>
-      </div>
-      <Drawer open={showDrawer} onClose={() => setShowDrawer(!showDrawer)}>
-        <div className={classes.drawer}>
-          <Button
-                variant="contained"
-                color={showTags ? "secondary" : "primary"}
-                style={{margin: 20}}
-                onClick={() => setShowTags(!showTags)}
-              > Tags </Button>
-          <Button
-              variant="contained"
-              color="primary"
-              style={{margin: 20}}
-              onClick={() => {
-                props.changeSortOrderAction({
-                  'currentOrder': props.sortOrder,
-                  'restaurants': props.restaurants
-                })
-              }}
-            > { buttonText } </Button>
-        </div>
-      </Drawer>
-      
-      { tagChips }
-      { tagMessage }
-      <Restaurants/>
-      
+      <Router>
+        <Route exact path="/wolt2020" render={() => {
+          return (
+            <>
+              <div className={classes.navBar}>
+              <Button
+                    variant="contained"
+                    color={showTags ? "secondary" : "primary"}
+                    style={{margin: 20}}
+                    onClick={() => setShowTags(!showTags)}
+                  > Tags </Button>
+              <Button
+                  variant="contained"
+                  color="primary"
+                  style={{margin: 20}}
+                  onClick={() => {
+                    props.changeSortOrderAction({
+                      'currentOrder': props.sortOrder,
+                      'restaurants': props.restaurants
+                    })
+                  }}
+                > { buttonText } </Button>
+              </div>
+              { tagChips }
+              { tagMessage }
+              <Restaurants/>
+            </>
+          );
+        }}/>
+      </Router>
     </div>
   );
 }

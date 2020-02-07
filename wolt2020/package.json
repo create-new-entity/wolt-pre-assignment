@@ -2,6 +2,7 @@
   "name": "wolt2020",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://duniarbalchal.dev/wolt2020",
   "dependencies": {
     "@material-ui/core": "^4.9.1",
     "@testing-library/jest-dom": "^4.2.4",
@@ -11,6 +12,7 @@
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-redux": "^7.1.3",
+    "react-router-dom": "^5.1.2",
     "react-scripts": "3.3.0",
     "redux": "^4.0.5",
     "uuid": "^3.4.0"

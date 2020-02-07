@@ -13,8 +13,7 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down(415)]: {
       width: window.innerWidth - 10,
       height: 95
-    },
-    backgroundColor: 'rgb(237, 255, 171)'
+    }
   },
   paperContentsContainer: {
     display: 'flex',
