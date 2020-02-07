@@ -9,6 +9,7 @@ import Restaurant from './Restaurant';
 const useStyles = makeStyles(theme => ({
   root: {
     justifyContent: 'center',
+    alignItems: 'center',
     marginTop: 10
   }
 }));
@@ -31,7 +32,7 @@ const Restaurants = ({ restaurants }) => {
     <Grid
         className={classes.root}
         container
-        spacing={2}
+        spacing={1}
       >
         {
           restaurantsComponents

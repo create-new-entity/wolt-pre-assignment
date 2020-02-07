@@ -37,7 +37,7 @@ const useStyles = makeStyles(theme => ({
     marginTop: 50
   },
   navBar: {
-    width: window.innerWidth + 16,
+    width: window.innerWidth,
     height: 80,
     margin: 0,
     padding: 0,

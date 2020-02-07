@@ -9,11 +9,12 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles(theme => ({
   paper: {
     width: 275,
-    height: 230,
+    height: 240,
     [theme.breakpoints.down(415)]: {
-      width: window.innerWidth - 20,
+      width: window.innerWidth - 10,
       height: 95
-    }
+    },
+    backgroundColor: 'rgb(237, 255, 171)'
   },
   paperContentsContainer: {
     display: 'flex',
@@ -89,7 +90,7 @@ const Restaurant = ({ restaurant }) => {
             </p>
           </Box>
           <Box style={{backgroundColor: restaurant.online ? 'rgb(33, 95, 48, 0.8)' : 'rgb(114, 54, 37, 0.8)'}} className={classes.statusContainer}>
-            <p style={{margin: 0, padding: 2}}> {restaurant.online ? 'Online' : 'Offline'}</p>
+            <p style={{margin: 0, padding: 6}}> {restaurant.online ? 'Online' : 'Offline'}</p>
           </Box>
         </Box>
       </Paper>
